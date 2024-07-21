@@ -1,0 +1,99 @@
+SQL> SELECT COUNT(DEPTNO)
+  2  FROM DEPT;
+
+COUNT(DEPTNO)                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+            4                                                                                                                                                                                           
+
+SQL> SELECT COUNT(EMPNO)
+  2  FROM EMP
+  3  WHERE ENAME LIKE IN '%Z%';
+WHERE ENAME LIKE IN '%Z%'
+                 *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT COUNT(EMPNO)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%Z%';
+
+COUNT(EMPNO)                                                                                                                                                                                            
+------------                                                                                                                                                                                            
+           0                                                                                                                                                                                            
+
+SQL> SELECT COUNT(EMPNO)
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%$%';
+
+COUNT(EMPNO)                                                                                                                                                                                            
+------------                                                                                                                                                                                            
+           0                                                                                                                                                                                            
+
+SQL> SELECT SUM(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO IN 30;
+
+  SUM(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      9400                                                                                                                                                                                              
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN 'ANALYST';
+
+  MAX(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      3000                                                                                                                                                                                              
+
+SQL> SELECT DISTINCT(SAL)
+  2  FROM EMP;
+
+       SAL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2450                                                                                                                                                                                              
+      5000                                                                                                                                                                                              
+      1300                                                                                                                                                                                              
+      1250                                                                                                                                                                                              
+      2850                                                                                                                                                                                              
+      2975                                                                                                                                                                                              
+      1100                                                                                                                                                                                              
+      3000                                                                                                                                                                                              
+       800                                                                                                                                                                                              
+      1600                                                                                                                                                                                              
+      1500                                                                                                                                                                                              
+       950                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT COUNT(JOB)
+  2  FROM EMP;
+
+COUNT(JOB)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        14                                                                                                                                                                                              
+
+SQL> SELECT DISTINCT(COUNT(JOB))
+  2  FROM EMP;
+
+(COUNT(JOB))                                                                                                                                                                                            
+------------                                                                                                                                                                                            
+          14                                                                                                                                                                                            
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN 'CLERK';
+
+  AVG(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+    1037.5                                                                                                                                                                                              
+
+SQL> SELECT MIN(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN ('MANAGER','SALES') AND DEPTNO IN 30;
+
+  MIN(SAL)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2850                                                                                                                                                                                              
+
+SQL> SPOOL OFF;

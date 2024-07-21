@@ -1,0 +1,101 @@
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE INSTR(JOB,'MAN') >0;
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+TURNER                                                                                                                                                                                                  
+
+7 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE INSTR(JOB,'MAN,1) >0;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE INSTR(JOB,'MAN',1)>0;
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+TURNER                                                                                                                                                                                                  
+
+7 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE INSTR(JOB,'MAN',-1);
+WHERE INSTR(JOB,'MAN',-1)
+                        *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE INSTR(JOB,'MAN',-1) >0;
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+ALLEN                                                                                                                                                                                                   
+WARD                                                                                                                                                                                                    
+JONES                                                                                                                                                                                                   
+MARTIN                                                                                                                                                                                                  
+BLAKE                                                                                                                                                                                                   
+CLARK                                                                                                                                                                                                   
+TURNER                                                                                                                                                                                                  
+
+7 rows selected.
+
+SQL> SELECT CONCAT( LOWER(SUBSTR(ENAME,1,3)),UPPER(SUBSTR(ENAME,3)))
+  2  FROM EMP;
+
+CONCAT(LOWE                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+smiITH                                                                                                                                                                                                  
+allLEN                                                                                                                                                                                                  
+warRD                                                                                                                                                                                                   
+jonNES                                                                                                                                                                                                  
+marRTIN                                                                                                                                                                                                 
+blaAKE                                                                                                                                                                                                  
+claARK                                                                                                                                                                                                  
+scoOTT                                                                                                                                                                                                  
+kinNG                                                                                                                                                                                                   
+turRNER                                                                                                                                                                                                 
+adaAMS                                                                                                                                                                                                  
+jamMES                                                                                                                                                                                                  
+forRD                                                                                                                                                                                                   
+milLLER                                                                                                                                                                                                 
+
+14 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE TO_CHAR(HIREDATE,'DAY') IN 'WEDNESDAY';
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+SMITH                                                                                                                                                                                                   
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE TO_CHAR(HIREDATE,'DAY') IN 'SUNDAY   ' AND TO_CHAR(HIREDATE,'MON') IN 'MAY';
+
+no rows selected
+
+SQL> SPOOL OFF;
