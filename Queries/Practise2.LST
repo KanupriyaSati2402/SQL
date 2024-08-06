@@ -1,0 +1,64 @@
+SQL> SET LINES 200 PAGES 200;
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE HIREDATE >'17-DEC-80' AND SAL > 2000 AND JOB IN 'ANALYST' AND ENAME LIKE 'S%T' ;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB IN ('SALESMAN','ANALYST','PRESIDENT','
+  4  MANAGER') ABD SAL>1000 AND COMM IS NOT NULL AND COMM !=0;
+MANAGER') ABD SAL>1000 AND COMM IS NOT NULL AND COMM !=0
+          *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT *
+  2  FROM EMP
+  3  WHERE JOB IN ('SALESMAN','ANALYST','PRESIDENT','
+  4* MANAGER') AND SAL>1000 AND COMM IS NOT NULL AND COMM !=0
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB IN ('SALESMAN','ANALYST') AND DEPTNO IN (20,30) AND SAL BETWEEN 1000 AND 2000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE SAL NOT BETWEEN 2000 AND 3000 AND DEPTNO IN 10 AND JOB NOT IN 'CLERK';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB IN 'SALESMAN' AND SAL/4 LIKE '%5';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+
+SQL> SPOOL OFF;
