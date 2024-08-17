@@ -1,0 +1,114 @@
+SQL> SELECT DNAME , COUNT(EMPNO)
+  2  FROM EMP , DEPT
+  3  WHERE EMP.DEPTNO=DEPT.DEPTNO
+  4  GROUP BY DNAME;
+
+DNAME          COUNT(EMPNO)                                                                                                                                                                             
+-------------- ------------                                                                                                                                                                             
+ACCOUNTING                3                                                                                                                                                                             
+RESEARCH                  5                                                                                                                                                                             
+SALES                     6                                                                                                                                                                             
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  GROUP BY DNAME
+  4  HAVING COUNT(DNAME) <2;
+
+DNAME                                                                                                                                                                                                   
+--------------                                                                                                                                                                                          
+ACCOUNTING                                                                                                                                                                                              
+OPERATIONS                                                                                                                                                                                              
+RESEARCH                                                                                                                                                                                                
+SALES                                                                                                                                                                                                   
+
+SQL> SELECT DNAME ,K
+  2  /
+SELECT DNAME ,K
+              *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME 
+  2  FROM DEPT 
+  3* WHERE JOB IN 'CLERK' AND SAL >1500
+SQL> /
+WHERE JOB IN 'CLERK' AND SAL >1500
+                         *
+ERROR at line 3:
+ORA-00904: "SAL": invalid identifier 
+
+
+SQL> SELECT DNAME ,
+  2  ENAME
+  3  FROM EMP.DEPT
+  4  WHERE EMP.DEPTNO = DEPT.DEPTNO AND SAL >1500 AND JOB IN 'CLERK';
+FROM EMP.DEPT
+         *
+ERROR at line 3:
+ORA-00942: table or view does not exist 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM EMP,DEPT
+  3* WHERE EMP.DEPTNO = DEPT.DEPTNO AND SAL >1500 AND JOB IN 'CLERK'
+SQL> /
+
+no rows selected
+
+SQL> SELECT JOB
+  2  FROM EMP
+  3  WHERE AVG(SAL) BETWEEN 1000 AND 2000;
+WHERE AVG(SAL) BETWEEN 1000 AND 2000
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT JOB , AVG(SAL) AS AVG_SAL
+  2  FROM EMP
+  3* WHERE AVG_SAL BETWEEN 1000 AND 2000
+SQL> /
+WHERE AVG_SAL BETWEEN 1000 AND 2000
+      *
+ERROR at line 3:
+ORA-00904: "AVG_SAL": invalid identifier 
+
+
+SQL> SELECT JOB
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT AVG(SAL) FROM EMP WHERE SAL BETWEEN 1000 AND 2000);
+
+no rows selected
+
+SQL> SELECT COUNT(EMPNO) , DNAME
+  2  FROM EMP , DEPT
+  3  WHERE JOB LIKE '%R%'
+  4  GROUP BY DNAME;
+
+COUNT(EMPNO) DNAME                                                                                                                                                                                      
+------------ --------------                                                                                                                                                                             
+           8 ACCOUNTING                                                                                                                                                                                 
+           8 OPERATIONS                                                                                                                                                                                 
+           8 RESEARCH                                                                                                                                                                                   
+           8 SALES                                                                                                                                                                                      
+
+SQL> SELECT DEPTNO
+  2  FROM EMP , DEPT
+  3  WHERE MGR IN 7893;
+SELECT DEPTNO
+       *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> SPOOL OFF;
