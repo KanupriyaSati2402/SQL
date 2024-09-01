@@ -1,0 +1,195 @@
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4                FROM EMP
+  5                GROUP BY DEPTNO);
+
+  MAX(SAL)                                                                      
+----------                                                                      
+      5000                                                                      
+
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERE SAL IN ((SELECT MAX(SAL)
+  4   FROM EMP
+  5   GROUP BY DEPTNO);
+ GROUP BY DEPTNO)
+                *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT SAL FROM EMP
+  2  WHERE SAL IN (SELECT MAX(SAL) FROM EMP
+  3                GROUP BY DEPTNO );
+
+       SAL                                                                      
+----------                                                                      
+      2850                                                                      
+      3000                                                                      
+      3000                                                                      
+      5000                                                                      
+
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT AVG(SAL) FROM EMP );
+
+       SAL                                                                      
+----------                                                                      
+      2975                                                                      
+      2850                                                                      
+      2450                                                                      
+      3000                                                                      
+      5000                                                                      
+      3000                                                                      
+
+6 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT SAL,ENAME
+  2  FROM EMP
+  3* WHERE SAL > (SELECT AVG(SAL) FROM EMP )
+SQL> /
+
+       SAL ENAME                                                                
+---------- ----------                                                           
+      2975 JONES                                                                
+      2850 BLAKE                                                                
+      2450 CLARK                                                                
+      3000 SCOTT                                                                
+      5000 KING                                                                 
+      3000 FORD                                                                 
+
+6 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP E, EMP M
+  3  WHERE E.DEPTNO =M.DEPTNO AND E.MGR!=NULL ;
+SELECT ENAME
+       *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME
+  2  FROM EMP E, EMP M
+  3* WHERE E.DEPTNO =M.DEPTNO AND E.MGR!=NULL 
+SQL> /
+
+no rows selected
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE ENAME IN 'JOHN');
+
+no rows selected
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE ENAME IN 'ALLEN');
+
+ENAME                                                                           
+----------                                                                      
+JAMES                                                                           
+TURNER                                                                          
+BLAKE                                                                           
+MARTIN                                                                          
+WARD                                                                            
+ALLEN                                                                           
+
+6 rows selected.
+
+SQL> SELECT ENAME , SAL
+  2  FROM EMP
+  3  WHERE SAL > ( SELECT AVG(SAL) FROM EMP GROUP BY DEPTNO);
+WHERE SAL > ( SELECT AVG(SAL) FROM EMP GROUP BY DEPTNO)
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME , SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT AVG(SAL) 
+  4               FROM EMP 
+  5*              GROUP BY DEPTNO)
+SQL> /
+WHERE SAL > (SELECT AVG(SAL) 
+             *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME , SAL
+  2  FROM EMP
+  3  WHERE SAL >ALL (SELECT AVG(SAL) 
+  4               FROM EMP 
+  5*              GROUP BY DEPTNO)
+SQL> /
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+JONES            2975                                                           
+SCOTT            3000                                                           
+KING             5000                                                           
+FORD             3000                                                           
+
+SQL> SELECT DEPTNO
+  2  FROM EMP;
+
+    DEPTNO                                                                      
+----------                                                                      
+        20                                                                      
+        30                                                                      
+        30                                                                      
+        20                                                                      
+        30                                                                      
+        30                                                                      
+        10                                                                      
+        20                                                                      
+        10                                                                      
+        30                                                                      
+        20                                                                      
+
+    DEPTNO                                                                      
+----------                                                                      
+        30                                                                      
+        20                                                                      
+        10                                                                      
+
+14 rows selected.
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE COUNT(EMPNO) IN (SELECT COUNT(EMPNO) FROM EMP GROUP BY DEPTNO);
+WHERE COUNT(EMPNO) IN (SELECT COUNT(EMPNO) FROM EMP GROUP BY DEPTNO)
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2  FROM EMP
+  3  GROUP BY DEPTNO 
+  4* HAVING COUNT(EMPNO)>5
+SQL> /
+
+    DEPTNO                                                                      
+----------                                                                      
+        30                                                                      
+
+SQL> SPOOL OFF;
